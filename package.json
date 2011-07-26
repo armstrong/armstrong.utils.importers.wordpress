@@ -1,0 +1,5 @@
+{
+    "name": "armstrong.utils.importers.wordpress",
+    "version": "0.1.0.alpha.0",
+    "description": "Tools to import wordpress xml data into Armstrong"
+}

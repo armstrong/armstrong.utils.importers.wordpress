@@ -1,5 +1,8 @@
 {
     "name": "armstrong.utils.importers.wordpress",
     "version": "0.1.0.alpha.0",
-    "description": "Tools to import wordpress xml data into Armstrong"
+    "description": "Tools to import wordpress xml data into Armstrong",
+    "entry_points": {
+        "armstrong.commands": ["import_wp = armstrong.utils.importers.wordpress.command:import_wp"]
+    }
 }

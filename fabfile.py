@@ -13,8 +13,8 @@ settings = {
         'armstrong.apps.articles',
         'armstrong.apps.content',
         'armstrong.utils.importers.wordpress',
-        'lettuce.django',
     ),
+    'STATIC_URL': '',
 }
 
 tested_apps = ("wordpress", )

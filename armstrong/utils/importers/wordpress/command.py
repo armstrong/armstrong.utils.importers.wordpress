@@ -25,10 +25,16 @@ class ImportWordpressCommand(object):
             for article in articles:
                 article.save()
                 article.authors = article.authors_list
+                article.tags.add(*article.tags_list)
+                article.sections.add(*article.sections_list)
                 article.save()
+            for page in pages:
+                page.save()
+
         print "Found %i new authors" % len(authors)
         print "Found %i new sections" % len(sections)
-        print "Found %i new articles" % len(articles)
+        print "Found %i articles" % len(articles)
+        print "Found %i pages" % len(page)
 
     @property
     def requires_armstrong(self):

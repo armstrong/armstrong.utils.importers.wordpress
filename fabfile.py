@@ -7,6 +7,7 @@ settings = {
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',
+        'django.contrib.flatpages',
         'django.contrib.sessions',
         'django.contrib.sites',
         'armstrong.core.arm_sections',

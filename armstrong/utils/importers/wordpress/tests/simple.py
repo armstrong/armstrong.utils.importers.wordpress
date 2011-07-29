@@ -40,4 +40,10 @@ class SimpleImportTestCase(TestCase):
             a.save()
 
     def test_import_flat_pages(self):
-        pass
+        pages = self.parser.get_pages()
+        self.assertEqual(len(pages), 1)
+        page = pages[0]
+        self.assertEqual(page.url,
+                         'http://armstrongexport.wordpress.com/about/')
+        self.assertEqual(page.title, 'About')
+        page.save()

@@ -2,6 +2,7 @@ from lxml import etree
 from armstrong.core.arm_sections.models import Section
 from armstrong.apps.articles.models import Article
 from django.contrib.auth.models import User
+from django.contrib.flatpages.models import FlatPage
 from django.template.defaultfilters import slugify
 
 
@@ -89,7 +90,8 @@ class WordpressFileParser(object):
                 self.authors_map[author.username] = author
             date = find(item, 'wp:post_date').text
             pub_status = STATUS_MAP.get(find(item, 'wp:status').text, 'D')
-            # TODO sections/tags
+            sections, tags = self._get_sections_and_tags_for_item(item)
+
             if post_type == 'post':
                 a = Article(title=title,
                             summary=summary,
@@ -98,9 +100,26 @@ class WordpressFileParser(object):
                             pub_date=date,
                             pub_status=pub_status)
                 a.authors_list = (author,)
+                a.sections_list = sections
+                a.tags_list = tags
                 self.articles.append(a)
             if post_type == 'page':
-                pass
+                url = find(item, 'link').text
+                p = FlatPage(url=url,
+                             title=title,
+                             content=body)
+                self.pages.append(p)
+
+    def _get_sections_and_tags_for_item(self, item):
+        sections = []
+        tags = []
+        for cat in item.findall('category'):
+            if 'nicename' in cat.attrib:
+                if cat.attrib['domain'] == 'tag':
+                    tags.append(cat.attrib['nicename'])
+                if cat.attrib['domain'] == 'category':
+                    sections.append(self.section_map[cat.attrib['nicename']])
+        return sections, tags
 
     def _initialize_authors_map(self):
         if self.authors_map:

@@ -26,15 +26,16 @@ class WordpressFileParser(object):
         self.xml = etree.parse(import_file, parser)
         self.root = self.xml.getroot()
         self.channel = find(self.root, 'channel')
-        self.section_map = {}
+        self.section_map = None
         self.sections = []
-        self.articles = []
-        self.pages = []
-        self.authors_map = {}
+        self.authors_map = None
+        self.articles = None
+        self.pages = None
 
     def _initialize_section_map(self):
-        if self.section_map:
+        if self.section_map is not None:
             return
+        self.section_map = {}
         for s in Section.objects.all():
             self.section_map[s.slug] = s
 
@@ -68,8 +69,10 @@ class WordpressFileParser(object):
         return self.sections
 
     def process_items(self):
-        if 0 < len(self.articles) + len(self.pages):
+        if self.articles is not None and self.pages is not None:
             return
+        self.articles = []
+        self.pages = []
         self.get_sections()
         self._initialize_authors_map()
         for item in self.channel.findall('item'):
@@ -122,8 +125,9 @@ class WordpressFileParser(object):
         return sections, tags
 
     def _initialize_authors_map(self):
-        if self.authors_map:
+        if self.authors_map is not None:
             return
+        self.authors_map = {}
         for u in User.objects.all():
             self.authors_map[u.username] = u
 

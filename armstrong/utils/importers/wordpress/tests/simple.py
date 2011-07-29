@@ -2,6 +2,8 @@ from ._utils import *
 from ..parser import WordpressFileParser
 from os import path
 from armstrong.apps.articles.models import Article
+from armstrong.core.arm_sections.models import Section
+from django.contrib.auth.models import User
 
 
 class SimpleImportTestCase(TestCase):
@@ -16,6 +18,24 @@ class SimpleImportTestCase(TestCase):
         self.assertEqual(sections[2].parent, sections[0])
         for s in sections:
             s.save()
+
+    def test_import_will_use_existing_sections(self):
+        s = Section.objects.create(title="Inner", slug='inner')
+        sections = self.parser.get_sections()
+        self.assertEqual(len(sections), 2)
+
+    def test_import_only_builds_authors_once(self):
+        with self.assertNumQueries(1):
+            self.parser._initialize_authors_map()
+        with self.assertNumQueries(0):
+            self.parser._initialize_authors_map()
+
+    def test_import_only_builds_sections_once(self):
+        with self.assertNumQueries(1):
+            self.parser._initialize_section_map()
+        with self.assertNumQueries(0):
+            sections = self.parser.get_sections()
+            self.assertEqual(sections, self.parser.get_sections())
 
     def test_import_articles(self):
         authors = self.parser.get_authors()
@@ -38,6 +58,11 @@ class SimpleImportTestCase(TestCase):
         self.assertEqual(authors[0].is_active, False)
         for a in authors:
             a.save()
+
+    def test_import_will_use_existing_authors(self):
+        user = User.objects.create(username='armstrongexport')
+        authors = self.parser.get_authors()
+        self.assertEqual(len(authors), 0)
 
     def test_import_flat_pages(self):
         pages = self.parser.get_pages()

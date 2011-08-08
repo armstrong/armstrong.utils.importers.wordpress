@@ -7,6 +7,20 @@ from django.contrib.auth.models import User
 
 
 class SimpleImportTestCase(TestCase):
+    # TODO: move these methods to their proper home
+    def assertModelCanSave(self, model, msg=None):
+        try:
+            model.save()
+        except Exception, e:
+            if msg is None:
+                msg = "%s.save should not have raised exception: %s" % (
+                    model.__class__.__name__, e)
+            self.fail(msg)
+
+    def assertModelsCanSave(self, models, msg=None):
+        for model in models:
+            self.assertModelCanSave(model)
+
     def setUp(self):
         simple_xml = path.join(path.split(__file__)[0], 'xml_files/simple.xml')
         self.parser = WordpressFileParser(simple_xml)
@@ -16,8 +30,7 @@ class SimpleImportTestCase(TestCase):
         self.assertEqual(len(sections), 3)
         self.assertEqual(sections[0].title, 'outer')
         self.assertEqual(sections[2].parent, sections[0])
-        for s in sections:
-            s.save()
+        self.assertModelsCanSave(sections)
 
     def test_import_will_use_existing_sections(self):
         s = Section.objects.create(title="Inner", slug='inner')
@@ -39,14 +52,13 @@ class SimpleImportTestCase(TestCase):
 
     def test_import_articles(self):
         authors = self.parser.get_authors()
-        for auth in authors:
-            auth.save()
+        self.assertModelsCanSave(authors)
         articles = self.parser.get_articles()
         self.assertEqual(len(articles), 4)
         for art in articles:
-            art.save()
+            self.assertModelCanSave(art)
             art.authors = art.authors_list
-            art.save()
+            self.assertModelCanSave(art)
         author_articles = Article.objects.filter(authors=authors[0])
         for art in articles:
             self.assertTrue(art in author_articles)
@@ -56,8 +68,7 @@ class SimpleImportTestCase(TestCase):
         self.assertEqual(len(authors), 1)
         self.assertEqual(authors[0].username, 'armstrongexport')
         self.assertEqual(authors[0].is_active, False)
-        for a in authors:
-            a.save()
+        self.assertModelsCanSave(authors)
 
     def test_import_will_use_existing_authors(self):
         user = User.objects.create(username='armstrongexport')
@@ -71,4 +82,4 @@ class SimpleImportTestCase(TestCase):
         self.assertEqual(page.url,
                          'http://armstrongexport.wordpress.com/about/')
         self.assertEqual(page.title, 'About')
-        page.save()
+        self.assertModelCanSave(page)

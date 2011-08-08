@@ -1,0 +1,2 @@
+-r ./dev.txt
+-e git+git://github.com/dmclain/armstrong.cli.git#egg=armstrong.cli

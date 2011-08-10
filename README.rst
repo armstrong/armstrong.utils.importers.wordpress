@@ -9,7 +9,15 @@ Utilities for transitioning to Armstrong from Wordpress
 Usage
 -----
 
-**TODO**
+armstrong.utils.importers.wordpress imports Wordpress xml export files into an
+armstrong installation. The importer assumes that the database is empty except
+for whatever may have been added during a syncdb. The importer will create
+``armstrong.apps.articles.models.Article`` objects for each post and
+``django.contrib.flatpages.models.FlatPage`` objects for each page object.
+
+To run the importer, navigate to the root of the project you want to import
+into and run ``armstrong import_wp /path/to/your/export.xml``. The command
+accepts a ``--dryrun`` parameter that doesn't actually alter the database.
 
 Installation
 ------------

@@ -1,6 +1,6 @@
 {
     "name": "armstrong.utils.importers.wordpress",
-    "version": "0.1.0",
+    "version": "0.1.0.1",
     "description": "Tools to import wordpress xml data into Armstrong",
     "install_requires": [
         "lxml==2.3"

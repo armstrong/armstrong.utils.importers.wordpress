@@ -17,6 +17,7 @@ class ImportWordpressCommand(object):
         authors = parser.get_authors()
         sections = parser.get_sections()
         articles = parser.get_articles()
+        pages = parser.get_pages()
         if not dryrun:
             for auth in authors:
                 auth.save()
@@ -34,7 +35,7 @@ class ImportWordpressCommand(object):
         print "Found %i new authors" % len(authors)
         print "Found %i new sections" % len(sections)
         print "Found %i articles" % len(articles)
-        print "Found %i pages" % len(page)
+        print "Found %i pages" % len(pages)
 
     @property
     def requires_armstrong(self):

@@ -57,7 +57,10 @@ class WordpressFileParser(object):
             parent = find(section, 'wp:category_parent')
             if parent is not None:
                 if parent.text is not None:
-                    parent = self.section_map[parent.text]
+                    for s in self.sections:
+                        if parent.text == s.title:
+                            parent = s
+                            break
                 else:
                     parent = None
             s = Section(title=title,

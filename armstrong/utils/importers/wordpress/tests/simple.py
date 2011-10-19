@@ -28,7 +28,7 @@ class SimpleImportTestCase(TestCase):
     def test_import_sections(self):
         sections = self.parser.get_sections()
         self.assertEqual(len(sections), 3)
-        self.assertEqual(sections[0].title, 'outer')
+        self.assertEqual(sections[0].title, 'Outer')
         self.assertEqual(sections[2].parent, sections[0])
         self.assertModelsCanSave(sections)
 

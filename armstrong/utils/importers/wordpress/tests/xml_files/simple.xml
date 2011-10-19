@@ -34,9 +34,9 @@
 	<wp:wxr_version>1.0</wp:wxr_version>
 	<wp:base_site_url>http://wordpress.com/</wp:base_site_url>
 	<wp:base_blog_url>http://armstrongexport.wordpress.com</wp:base_blog_url>
-		<wp:category><wp:category_nicename>outer</wp:category_nicename><wp:category_parent></wp:category_parent><wp:cat_name><![CDATA[outer]]></wp:cat_name><wp:category_description><![CDATA[This is the description]]></wp:category_description></wp:category>
+		<wp:category><wp:category_nicename>outer</wp:category_nicename><wp:category_parent></wp:category_parent><wp:cat_name><![CDATA[Outer]]></wp:cat_name><wp:category_description><![CDATA[This is the description]]></wp:category_description></wp:category>
 		<wp:category><wp:category_nicename>uncategorized</wp:category_nicename><wp:category_parent></wp:category_parent><wp:cat_name><![CDATA[Uncategorized]]></wp:cat_name></wp:category>
-		<wp:category><wp:category_nicename>inner</wp:category_nicename><wp:category_parent>outer</wp:category_parent><wp:cat_name><![CDATA[inner]]></wp:cat_name></wp:category>
+		<wp:category><wp:category_nicename>inner</wp:category_nicename><wp:category_parent>Outer</wp:category_parent><wp:cat_name><![CDATA[inner]]></wp:cat_name></wp:category>
 			<wp:tag><wp:tag_slug>ipsum</wp:tag_slug><wp:tag_name><![CDATA[ipsum]]></wp:tag_name></wp:tag>
 		<wp:tag><wp:tag_slug>lorum</wp:tag_slug><wp:tag_name><![CDATA[lorum]]></wp:tag_name></wp:tag>
 		
